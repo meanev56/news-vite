@@ -1,73 +1,198 @@
-# React + TypeScript + Vite
+Nairametrics Dashboard (Vite + React + Clerk)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, scalable dashboard built with Vite, React, React Router, Tailwind CSS, and Clerk Authentication.
+This project powers a news-focused user dashboard with protected routes, personalization, and role-based access.
 
-Currently, two official plugins are available:
+✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔐 Authentication with Clerk
 
-## React Compiler
+Sign in / Sign out
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+User profile management
 
-## Expanding the ESLint configuration
+Protected routes
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+🧭 Protected Dashboard
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Only authenticated users can access /dashboard
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+🧑‍💼 Role-Based Access
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Admin vs regular users using Clerk metadata
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+📌 Bookmarks System
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Saved articles per user
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+📊 Reading Analytics
+
+Track articles read
+
+🧱 Dashboard Layout
+
+Sidebar navigation
+
+📱 Responsive UI
+
+Mobile-friendly with animated menu
+
+🎨 Tailwind CSS + shadcn/ui
+
+Clean and consistent design
+
+⚡ Vite
+
+Fast dev server and builds
+
+
+🛠 Tech Stack
+
+Vite
+
+React + TypeScript
+
+React Router DOM
+
+Tailwind CSS
+
+Clerk Authentication
+
+shadcn/ui
+
+Lucide Icons
+
+
+
+src/
+├─ components/
+│  ├─ Navbar.tsx
+│  ├─ ProtectedRoute.tsx
+│
+├─ hooks/
+│  ├─ useBookmarks.ts
+│
+├─ services/
+│  ├─ bookmarks.ts
+│  ├─ analytics.ts
+│
+├─ layouts/
+│  ├─ DashboardLayout.tsx
+│
+├─ pages/
+│  ├─ dashboard/
+│  │  ├─ Dashboard.tsx
+│  │  ├─ Bookmarks.tsx
+│  │  ├─ Profile.tsx
+|  |-AboutUs.tsx
+|  |- Article.tsx
+|  |-Banking.tsx
+|  |-Markets.tsx
+|  |-Home.tsx
+|  |-NotFound.tsx
+|  |-Sports.tsx
+│
+├─ App.tsx
+├─ main.tsx
+└─ index.css
+
+🚀 Getting Started
+1️⃣ Clone the repository
+git clone https://github.com/your-username/nairametrics-dashboard.git
+cd nairametrics-dashboard
+
+2️⃣ Install dependencies
+npm install
+
+3️⃣ Environment Variables
+
+Create a .env file in the root directory:
+
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+
+
+You can get this from your Clerk Dashboard → API Keys
+
+4️⃣ Run the project
+npm run dev
+
+
+App will be available at:
+
+http://localhost:5173
+
+🔐 Authentication Flow
+
+Public pages are accessible to everyone
+
+/dashboard is protected using ProtectedRoute
+
+Unauthenticated users are redirected to /
+
+User roles are stored in Clerk publicMetadata
+
+Example admin metadata:
+{
+  "role": "admin"
+}
+
+📌 Dashboard Pages
+Route	Description
+/dashboard	Overview
+/dashboard/bookmarks	Saved articles
+/dashboard/profile	User profile & security
+🧠 Custom Hooks & Services
+useBookmarks
+
+Fetches user bookmarks
+
+Easy to replace with real backend
+
+analytics.ts
+
+Tracks article reads
+
+Ready for database integration
+
+🎯 Future Improvements
+
+🔗 Connect real backend (Supabase / Firebase / Laravel)
+
+📰 Live news API integration
+
+📊 Advanced analytics dashboard
+
+🔔 Notifications system
+
+🌙 Dark mode
+
+📱 PWA support
+
+🧪 Scripts
+npm run dev       # Start dev server
+npm run build     # Build for production
+npm run preview   # Preview production build
+
+🤝 Contributing
+
+Fork the repo
+
+Create a feature branch
+
+Commit your changes
+
+Open a pull request
+
+📄 License
+
+This project is licensed under the MIT License.
+
+🙌 Acknowledgements
+
+Clerk
+
+Vite
+
+shadcn/ui
+
+Lucide Icons
