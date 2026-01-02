@@ -9,6 +9,11 @@ import Markets from "./pages/Markets";
 import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
+import ProtectedRoute from "./components/ProtectedRouter";
+import Dashboard from "./pages/dashboard/Dashboard";
+import DashboardLayout from "./layouts/DashboardLayout";
+import Bookmarks from "./pages/dashboard/Bookmarks";
+import Profile from "./pages/dashboard/Profile";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +23,19 @@ const App = () => (
       <Toaster />
       <BrowserRouter>
         <Routes>
+          <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="bookmarks" element={<Bookmarks />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+
           <Route path="/" element={<Home />} />
           <Route path="/article/:slug" element={<Article />} />
           <Route path="/sports" element={<Sports />} />

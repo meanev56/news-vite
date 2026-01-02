@@ -7,6 +7,7 @@ import {
   SignedOut,
   UserButton,
   SignInButton,
+  useUser
 } from '@clerk/clerk-react';
 
 interface NavItem {
@@ -28,6 +29,8 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
+  const { user } = useUser();
+
 
   return (
     <nav className="bg-[#0A2647] text-white shadow-md">
@@ -80,6 +83,10 @@ const Navbar = () => {
             </SignedOut>
 
             <SignedIn>
+              <span className="hidden md:inline text-sm font-medium">
+                Hi, {user?.firstName}
+              </span>
+
               <Link
                 to="/dashboard"
                 className="hidden md:inline-flex px-3 py-2 text-sm font-medium hover:bg-[#144272] rounded-md"
@@ -88,7 +95,7 @@ const Navbar = () => {
               </Link>
 
               <UserButton afterSignOutUrl="/" />
-            </SignedIn>
+          </SignedIn>
 
             {/* Mobile menu button */}
             <Button
@@ -141,13 +148,18 @@ const Navbar = () => {
             </SignedOut>
 
             <SignedIn>
+              <div className="px-3 py-2 text-sm text-white/80">
+                Signed in as {user?.fullName}
+              </div>
+
               <Link
                 to="/dashboard"
                 className="block px-3 py-2 hover:bg-[#205295]"
               >
                 Dashboard
               </Link>
-            </SignedIn>
+          </SignedIn>
+
           </div>
         </div>
       )}
