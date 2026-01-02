@@ -1,8 +1,13 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, Search, X } from 'lucide-react';
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  SignInButton,
+} from '@clerk/clerk-react';
 
 interface NavItem {
   name: string;
@@ -24,56 +29,79 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
 
-  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
-  const toggleSearch = () => setSearchOpen(!searchOpen);
-
   return (
     <nav className="bg-[#0A2647] text-white shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="shrink-0">
-            <Link to="/" className="text-2xl font-bold">Nairametrics</Link>
-          </div>
-          
+          <Link to="/" className="text-2xl font-bold">
+            Nairametrics
+          </Link>
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             {navItems.map((item) => (
-              <Link 
-                key={item.name} 
+              <Link
+                key={item.name}
                 to={item.href}
                 className={`px-3 py-2 rounded-md text-sm font-medium hover:bg-[#144272] transition-colors ${
-                  location.pathname === item.href && item.href !== '/' ? 'bg-[#144272]' : ''
+                  location.pathname === item.href && item.href !== '/'
+                    ? 'bg-[#144272]'
+                    : ''
                 }`}
               >
                 {item.name}
               </Link>
             ))}
           </div>
-          
-          {/* Right side icons */}
+
+          {/* Right side */}
           <div className="flex items-center space-x-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={toggleSearch} 
+            {/* Search */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSearchOpen(!searchOpen)}
               className="hover:bg-[#144272]"
             >
               <Search className="h-5 w-5" />
             </Button>
-            
+
+            {/* Auth */}
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button
+                  variant="ghost"
+                  className="hidden md:inline-flex hover:bg-[#144272]"
+                >
+                  Sign In
+                </Button>
+              </SignInButton>
+            </SignedOut>
+
+            <SignedIn>
+              <Link
+                to="/dashboard"
+                className="hidden md:inline-flex px-3 py-2 text-sm font-medium hover:bg-[#144272] rounded-md"
+              >
+                Dashboard
+              </Link>
+
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+
             {/* Mobile menu button */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="md:hidden hover:bg-[#144272]"
-              onClick={toggleMobileMenu}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? <X /> : <Menu />}
             </Button>
           </div>
         </div>
-        
+
         {/* Search bar */}
         {searchOpen && (
           <div className="py-3 border-t border-[#144272]">
@@ -81,35 +109,45 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search articles..."
-                className="w-full bg-white text-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2C74B3]"
+                className="w-full bg-white text-gray-800 px-4 py-2 rounded-md"
               />
-              <Button 
-                size="icon" 
-                className="absolute right-1 top-1 bg-news-light hover:bg-[#205295]"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
             </div>
           </div>
         )}
       </div>
-      
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#144272]">
-          <div className="container mx-auto px-4 py-3 space-y-1">
+          <div className="px-4 py-3 space-y-1">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-[#205295] transition-colors ${
-                  location.pathname === item.href && item.href !== '/' ? 'bg-[#205295]' : ''
-                }`}
+                className="block px-3 py-2 rounded-md hover:bg-[#205295]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
               </Link>
             ))}
+
+            {/* Mobile Auth */}
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="block w-full text-left px-3 py-2 hover:bg-[#205295]">
+                  Sign In
+                </button>
+              </SignInButton>
+            </SignedOut>
+
+            <SignedIn>
+              <Link
+                to="/dashboard"
+                className="block px-3 py-2 hover:bg-[#205295]"
+              >
+                Dashboard
+              </Link>
+            </SignedIn>
           </div>
         </div>
       )}
